@@ -1,4 +1,6 @@
+import { useContext } from 'react'
 import styled from 'styled-components'
+import { ChallengesContext } from '../contexts/ChallengesContext'
 
 const Head = styled.header`
 display: flex;
@@ -27,14 +29,19 @@ transform: translateX(-50%);
 `
 
 const ExpBar = () => {
+const { currentXp, experienceToNextLevel } = useContext(ChallengesContext)
+
+const percentToNextLevel = Math.round((currentXp * 100)) / experienceToNextLevel
+
+
     return (
         <Head>
             <Start>0 xp</Start>
             <Wrapper>
-                <CurrentProgress style={{width:"50%"}}/>
-                <CurrentXp style={{left: "50%"}}>300 xp</CurrentXp>
+                <CurrentProgress style={{width:`${percentToNextLevel}%`}}/>
+                <CurrentXp style={{left: `${percentToNextLevel}%`}}>{currentXp} xp</CurrentXp>
             </Wrapper>
-            <Start>600 xp</Start>
+            <Start>{experienceToNextLevel} xp</Start>
         </Head>
     )
 }

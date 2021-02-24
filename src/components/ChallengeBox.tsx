@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-
+import {useContext} from 'react'
+import styled, { css } from 'styled-components'
+import {ChallengesContext} from '../contexts/ChallengesContext'
 
 const ChallengeBoxContainer = styled.div`
     height:100%;
@@ -105,7 +105,6 @@ const ChallengeSucceededButton = styled.button`
         color:var(--white);
         font-size:1rem;
         font-weight:600;
-        background: var(--green);
         transition: filter 0.2s;
         &:hover{
             filter: brightness(0.9);
@@ -113,30 +112,58 @@ const ChallengeSucceededButton = styled.button`
 `
 
 
+const ChallengeBtn = styled.button<StatusBtn>`
+    height:3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:0;
+    border-radius:5px;
+    color:var(--white);
+    font-size:1rem;
+    font-weight:600;
+    transition: filter 0.2s;
+    &:hover{
+        filter: brightness(0.9);
+    }
+    ${props => props.success && css`
+    background: var(--green);
+    `}
+    ${props => props.failed && css`
+    background: var(--red);
+    `}
+    `
+
+    interface StatusBtn {
+        failed?: boolean;
+        success?: boolean;
+    }  
 
 
 const ChallengeBox = () => {
-const hasActiveChallenge = true
+const {activeChallenge, resetChallenge} = useContext(ChallengesContext)
+
+
 
 
     return (
         <ChallengeBoxContainer>
-            {hasActiveChallenge ? (
+            {activeChallenge ? (
                 <ChallengeActive>
-                <header>Ganhe 400xp</header>
+                <header>Ganhe {activeChallenge.amount}</header>
                 <main>
-                    <img src="icons/body.svg"/>
+                    <img src={`icons/${activeChallenge.type}.svg`}/>
                     <strong>Novo desafio</strong>
-                    <p>Levante e faça uma caminhada de 3 minutos</p>
+                    <p>{activeChallenge.description}</p>
                 </main>
 
                 <footer>
-                    <ChallengeFailedButton>
+                    <ChallengeBtn failed onClick={resetChallenge}  >
                         Falhei
-                    </ChallengeFailedButton>
-                    <ChallengeSucceededButton>
+                    </ChallengeBtn>
+                    <ChallengeBtn success >
                         Completei
-                    </ChallengeSucceededButton>
+                    </ChallengeBtn>
                 </footer>
 
                 </ChallengeActive>

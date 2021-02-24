@@ -1,5 +1,6 @@
 import styled, {css} from 'styled-components'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { ChallengesContext } from '../contexts/ChallengesContext';
 
 const CountdownContainer = styled.div`
     display:flex;
@@ -61,6 +62,12 @@ const Button = styled.button<ActiveBtn>`
         background:#fff;
         color:#666666;
         cursor:not-allowed;
+        border-bottom:3px solid var(--green);
+        display:flex;
+    }
+
+    & > img{
+        margin-left:10px;
     }
 
     ${props => props.active && css`
@@ -74,13 +81,13 @@ const Button = styled.button<ActiveBtn>`
     `}
 `
 interface ActiveBtn {
-    active: boolean;
+    active?: boolean;
 }
 
 let countdownTimeout: NodeJS.Timeout;
 
 const Countdown = () => {
-
+const { startNewChallenge } = useContext(ChallengesContext)
 
 
 const [time, setTime] = useState(0.1 * 60)
@@ -114,6 +121,7 @@ function resetCountdown(){
         else if(isActive && time === 0){
         setHasFinished(true)
         setIsAtive(false)
+        startNewChallenge()
         }
     },[isActive, time])
 
@@ -135,16 +143,17 @@ function resetCountdown(){
 
 
         {hasFinished ? (
-        <Button disabled active={false}>
+        <Button disabled>
             Ciclo encerado
+            <img src="icons/check_circle.svg"/>
         </Button>
         ) : (
             <>
         { isActive ? (
         <Button onClick={resetCountdown} active >
-            Abandonar ciclo
+            Abandonar ciclo 
         </Button> ) : (
-        <Button onClick={startCountdown} active={false}>
+        <Button onClick={startCountdown} >
             Iniciar ciclo
         </Button> 
         ) }
