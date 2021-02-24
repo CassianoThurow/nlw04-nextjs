@@ -1,6 +1,5 @@
 import ExpBar from "../components/ExpBar"
 import styled from 'styled-components'
-import GlobalStyle from '../style/globalStyle'
 import Profile from "../components/Profile"
 import CompletedChallenges from "../components/CompletedChallenges"
 import Countdown from "../components/Countdown"
@@ -26,7 +25,6 @@ const SectionHome = styled.section`
 export default function Home() {
   return (
     <>
-    <GlobalStyle/>
     <Container>
     <ExpBar />
     <SectionHome>
