@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Profile from "../components/Profile"
 import CompletedChallenges from "../components/CompletedChallenges"
 import Countdown from "../components/Countdown"
+import ChallengeBox from "../components/ChallengeBox"
 
 
 const Container = styled.div`
@@ -33,7 +34,9 @@ export default function Home() {
         <CompletedChallenges/>
         <Countdown />
       </div>
-      <div></div>
+      <div>
+        <ChallengeBox/>
+      </div>
     </SectionHome>
     </Container>
     </>
