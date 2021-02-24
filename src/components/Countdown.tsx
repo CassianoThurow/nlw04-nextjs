@@ -1,6 +1,5 @@
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 import { useState, useEffect } from 'react'
-
 
 const CountdownContainer = styled.div`
     display:flex;
@@ -53,20 +52,38 @@ const Button = styled.button`
     font-weight:600;
     transition: background-color 0.2s;
 
-    &:hover{
-      background:#4953b8;  
+  
+    &:not(:disable):hover{
+        background:#4953b8;  
     }
 
+    &:disabled{
+        background:#fff;
+        color:#666666;
+        cursor:not-allowed;
+    }
+
+    ${props => props.active && css`
+
+    background: #fff;
+    color:#2e384d;
+    &:hover{
+    background:#e83f5b;
+    color:#fff;
+    }
+    `}
 `
 
-
-
-
+let countdownTimeout: NodeJS.Timeout;
 
 const Countdown = () => {
 
-const [time, setTime] = useState(25 * 60)
-const [active, setAtive] = useState(false)
+
+
+const [time, setTime] = useState(0.1 * 60)
+const [isActive, setIsAtive] = useState(false)
+const [hasFinished, setHasFinished] = useState(false)
+
 
 const minutes = Math.floor(time / 60);
 const seconds = time % 60;
@@ -75,17 +92,27 @@ const [minuteLeft, minuteRight] = String(minutes).padStart(2, '0').split('')
 const [secondsLeft, secondsRight] = String(seconds).padStart(2, '0').split('')
 
 
-    function startCountdown(){
-        setAtive(true)
-    }
+function startCountdown(){
+    setIsAtive(true)
+}
+
+function resetCountdown(){
+    clearTimeout(countdownTimeout)
+    setIsAtive(false)
+    setTime(25 * 60)
+}
 
     useEffect(()=>{
-        if(active && time >0){
-            setTimeout(()=>{
-                setTime(time -1)
-            }, 1000)
+        if(isActive && time >0){
+            countdownTimeout = setTimeout(()=>{
+         setTime(time -1)
+        }, 1000)
+    }
+        else if(isActive && time === 0){
+        setHasFinished(true)
+        setIsAtive(false)
         }
-    },[active, time])
+    },[isActive, time])
 
 
     return (
@@ -103,9 +130,23 @@ const [secondsLeft, secondsRight] = String(seconds).padStart(2, '0').split('')
         </CountdownContainer>
 
 
+
+        {hasFinished ? (
+        <Button disabled>
+            Ciclo encerado
+        </Button>
+        ) : (
+            <>
+        { isActive ? (
+        <Button onClick={resetCountdown} active >
+            Abandonar ciclo
+        </Button> ) : (
         <Button onClick={startCountdown}>
-            iniciar um ciclo    
-        </Button>        
+            Iniciar ciclo
+        </Button> 
+        ) }
+            </>
+        )}
     </div> 
     )
 }
