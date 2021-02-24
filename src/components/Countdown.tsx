@@ -36,7 +36,7 @@ const CountdownContainer = styled.div`
         margin:0 0.5rem;
     }
 `
-const Button = styled.button`
+const Button = styled.button<ActiveBtn>`
     width:100%;
     height:5rem;
     margin-top:2rem;
@@ -53,7 +53,7 @@ const Button = styled.button`
     transition: background-color 0.2s;
 
   
-    &:not(:disable):hover{
+    &:hover{
         background:#4953b8;  
     }
 
@@ -73,6 +73,9 @@ const Button = styled.button`
     }
     `}
 `
+interface ActiveBtn {
+    active: boolean;
+}
 
 let countdownTimeout: NodeJS.Timeout;
 
@@ -132,7 +135,7 @@ function resetCountdown(){
 
 
         {hasFinished ? (
-        <Button disabled>
+        <Button disabled active={false}>
             Ciclo encerado
         </Button>
         ) : (
@@ -141,7 +144,7 @@ function resetCountdown(){
         <Button onClick={resetCountdown} active >
             Abandonar ciclo
         </Button> ) : (
-        <Button onClick={startCountdown}>
+        <Button onClick={startCountdown} active={false}>
             Iniciar ciclo
         </Button> 
         ) }
