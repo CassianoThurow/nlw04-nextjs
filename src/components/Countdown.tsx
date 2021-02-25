@@ -1,20 +1,20 @@
 import styled, {css} from 'styled-components'
 import { useState, useEffect, useContext } from 'react'
-import { ChallengesContext } from '../contexts/ChallengesContext';
+import { CountdownContext } from '../contexts/CountdownContext'
 
 const CountdownContainer = styled.div`
     display:flex;
     align-items:center;
     font-family: Rajdhani;
     font-weight:600;
-    color:#2e384d;
+    color:var(--title);
 
     & > div {
         flex:1;
         display:flex;
         align-items:center;
         justify-content:space-evenly;
-        background: #fff;
+        background: var(--white);
         box-shadow: 0 0 60px rgba (0, 0, 0, 0.05 )
         border-radius:5px;
         font-size: 8.5rem;
@@ -47,20 +47,20 @@ const Button = styled.button<ActiveBtn>`
     border:0;
     border-radius:5px;
 
-    background:#5965e0;
-    color:#fff;
+    background:var(--blue);
+    color:var(--white);
     font-size:1.25rem;
     font-weight:600;
     transition: background-color 0.2s;
 
   
     &:hover{
-        background:#4953b8;  
+        background:var(--blue-dark);  
     }
 
     &:disabled{
-        background:#fff;
-        color:#666666;
+        background:var(--white);
+        color:var(--text);
         cursor:not-allowed;
         border-bottom:3px solid var(--green);
         display:flex;
@@ -72,11 +72,11 @@ const Button = styled.button<ActiveBtn>`
 
     ${props => props.active && css`
 
-    background: #fff;
-    color:#2e384d;
+    background: var(--white);
+    color:var(--title);
     &:hover{
-    background:#e83f5b;
-    color:#fff;
+    background:var(--red);
+    color:var(--white);
     }
     `}
 `
@@ -84,46 +84,17 @@ interface ActiveBtn {
     active?: boolean;
 }
 
-let countdownTimeout: NodeJS.Timeout;
 
 const Countdown = () => {
-const { startNewChallenge } = useContext(ChallengesContext)
 
+const {minutes, seconds, hasFinished, isActive, startCountdown, resetCountdown} = useContext(CountdownContext)
 
-const [time, setTime] = useState(0.1 * 60)
-const [isActive, setIsAtive] = useState(false)
-const [hasFinished, setHasFinished] = useState(false)
-
-
-const minutes = Math.floor(time / 60);
-const seconds = time % 60;
 
 const [minuteLeft, minuteRight] = String(minutes).padStart(2, '0').split('')
 const [secondsLeft, secondsRight] = String(seconds).padStart(2, '0').split('')
 
 
-function startCountdown(){
-    setIsAtive(true)
-}
 
-function resetCountdown(){
-    clearTimeout(countdownTimeout)
-    setIsAtive(false)
-    setTime(25 * 60)
-}
-
-    useEffect(()=>{
-        if(isActive && time >0){
-            countdownTimeout = setTimeout(()=>{
-         setTime(time -1)
-        }, 1000)
-    }
-        else if(isActive && time === 0){
-        setHasFinished(true)
-        setIsAtive(false)
-        startNewChallenge()
-        }
-    },[isActive, time])
 
 
     return (

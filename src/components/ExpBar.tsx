@@ -13,14 +13,14 @@ const Wrapper = styled.div`
 flex: 1;
 height: 4px;
 border-radius: 4px;
-background: #dcdde0;
+background: var(--gray-line);
 margin: 0 1.5rem;
 position: relative;
 `
 const CurrentProgress = styled.div`
 height: 4px;
 border-radius: 4px;
-background: #4cd62b;
+background: var(--green);
 `
 const CurrentXp = styled.div`
 position: absolute;

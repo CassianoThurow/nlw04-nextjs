@@ -1,10 +1,11 @@
 import {useContext} from 'react'
 import styled, { css } from 'styled-components'
 import {ChallengesContext} from '../contexts/ChallengesContext'
+import { CountdownContext } from '../contexts/CountdownContext'
 
 const ChallengeBoxContainer = styled.div`
     height:100%;
-    background: #fff;
+    background: var(--white);
     border-radius:5px;
     box-shadow: 0 0 60px rgba(0, 0, 0, 0.05);
     padding:1.5rem 2rem;
@@ -141,9 +142,18 @@ const ChallengeBtn = styled.button<StatusBtn>`
 
 
 const ChallengeBox = () => {
-const {activeChallenge, resetChallenge} = useContext(ChallengesContext)
+const {activeChallenge, resetChallenge, completeChallenge} = useContext(ChallengesContext)
+const { resetCountdown } = useContext(CountdownContext)
 
+function handleChallengeSucceeded(){
+    completeChallenge()
+    resetCountdown()
+}
 
+function handleChallengeFailed(){
+    resetChallenge()
+    resetCountdown()
+}
 
 
     return (
@@ -158,10 +168,10 @@ const {activeChallenge, resetChallenge} = useContext(ChallengesContext)
                 </main>
 
                 <footer>
-                    <ChallengeBtn failed onClick={resetChallenge}  >
+                    <ChallengeBtn failed onClick={handleChallengeFailed}  >
                         Falhei
                     </ChallengeBtn>
-                    <ChallengeBtn success >
+                    <ChallengeBtn success onClick={handleChallengeSucceeded}>
                         Completei
                     </ChallengeBtn>
                 </footer>

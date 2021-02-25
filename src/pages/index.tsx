@@ -4,6 +4,7 @@ import Profile from "../components/Profile"
 import CompletedChallenges from "../components/CompletedChallenges"
 import Countdown from "../components/Countdown"
 import ChallengeBox from "../components/ChallengeBox"
+import { CountdownProvider } from "../contexts/CountdownContext"
 
 
 const Container = styled.div`
@@ -28,6 +29,7 @@ export default function Home() {
     <>
     <Container>
     <ExpBar />
+    <CountdownProvider>
     <SectionHome>
       <div>
         <Profile/>
@@ -38,6 +40,7 @@ export default function Home() {
         <ChallengeBox/>
       </div>
     </SectionHome>
+    </CountdownProvider>
     </Container>
     </>
     )
