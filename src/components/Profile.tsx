@@ -29,6 +29,9 @@ const ProfileContainer = styled.div`
     & > div > p img {
         margin-right:0.5rem;
     }
+    @media (min-width:425px){
+        margin-top:5rem;
+    }
 `
 
 const Profile = () =>{
@@ -36,9 +39,9 @@ const { level } = useContext(ChallengesContext)
 
     return(
         <ProfileContainer>
-            <img src="https://github.com/cassianothurow.png"alt="avatar"/>
+            <img src="icons/avatar.svg"alt="avatar"/>
             <div>
-                <strong>Cassiano Thurow</strong>
+                <strong>Usuário convidado</strong>
                 <p>
                     <img src="icons/level.svg" alt="Level"/>
                     Level {level}

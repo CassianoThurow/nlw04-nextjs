@@ -23,6 +23,10 @@ const SectionHome = styled.section`
   grid-template-columns: 1fr 1fr;
   grid-gap: 6.25rem;
   align-content: center;
+
+  @media(max-width:425px){
+    grid-template-columns: 1fr
+  }
 `
 
 interface HomeProps {
