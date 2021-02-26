@@ -29,7 +29,7 @@ const ProfileContainer = styled.div`
     & > div > p img {
         margin-right:0.5rem;
     }
-    @media (min-width:425px){
+    @media (max-width:425px){
         margin-top:5rem;
     }
 `
