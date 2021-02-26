@@ -50,7 +50,7 @@ export default function Home(props:HomeProps) {
         <CompletedChallenges/>
         <Countdown />
       </div>
-      <div style={{margin:'0 0 2rem 0'}}>
+      <div>
         <ChallengeBox/>
       </div>
     </SectionHome>
