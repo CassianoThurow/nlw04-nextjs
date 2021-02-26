@@ -5,7 +5,8 @@ import CompletedChallenges from "../components/CompletedChallenges"
 import Countdown from "../components/Countdown"
 import ChallengeBox from "../components/ChallengeBox"
 import { CountdownProvider } from "../contexts/CountdownContext"
-
+import { GetServerSideProps} from 'next'
+import { ChallengesProvider } from '../contexts/ChallengesContext'
 
 const Container = styled.div`
   height: 100vh;
@@ -24,9 +25,18 @@ const SectionHome = styled.section`
   align-content: center;
 `
 
-export default function Home() {
+interface HomeProps {
+  level: number
+  currentXp: number
+  challengesCompleted: number
+}
+
+export default function Home(props:HomeProps) {
+
+
   return (
     <>
+    <ChallengesProvider level={props.level} currentXp={props.currentXp} challengesCompleted={props.challengesCompleted}>
     <Container>
     <ExpBar />
     <CountdownProvider>
@@ -42,6 +52,20 @@ export default function Home() {
     </SectionHome>
     </CountdownProvider>
     </Container>
+    </ChallengesProvider>
     </>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) =>{
+
+  const { level, currentXp, challengesCompleted} = ctx.req.cookies
+
+  return {
+    props: {
+      level: Number(level),
+      currentXp: Number(currentXp),
+      challengesCompleted: Number(challengesCompleted)
+    },
+  }
 }
